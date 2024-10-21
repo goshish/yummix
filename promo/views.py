@@ -1,9 +1,8 @@
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, TemplateView, FormView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic import ListView
 from .forms import CustomUserCreationForm
 from django.contrib import messages
-from .models import RestaurantInfo, User
+from restaurant_admin.models import RestaurantInfo
 
 
 class PromoMainPageView(ListView):
@@ -19,8 +18,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Registration successful.")
-            return redirect('promo-main ')  # Редирект после успешной регистрации
+            return redirect('promo-main')
     else:
         form = CustomUserCreationForm()
 
@@ -28,4 +26,3 @@ def register(request):
         'form': form
     }
     return render(request, 'promo/register.html', context)
-

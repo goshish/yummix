@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, RestaurantInfo
+from restaurant_admin.models import User, RestaurantInfo
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 
@@ -25,22 +25,22 @@ class CustomUserCreationForm(UserCreationForm):
         return email
 
     def clean_password1(self):
-        username = self.cleaned_data['username'].lower()
-        password1 = self.cleaned_data['password1'].lower()
+        username = self.cleaned_data.get('username').lower()
+        password1 = self.cleaned_data.get('password1')
 
-        if password1 == username:
+        if password1 and password1.lower() == username:
             raise ValidationError("The password is too similar to the username.")
         return password1
 
     def clean_password2(self):
-        password1 = self.cleaned_data['password1']
-        password2 = self.cleaned_data['password2']
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
 
         if password1 and password2 and password1 != password2:
-            raise ValidationError("Password don`t match")
+            raise ValidationError("Passwords don't match")
         return password2
 
-    def save(self, commit = True):
+    def save(self, commit=True):
         user = User.objects.create_user(
             self.cleaned_data['username'],
             self.cleaned_data['email'],
