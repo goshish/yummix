@@ -1,0 +1,19 @@
+{% extends 'restaurant_admin/admin-base.html' %}
+
+{% block title %}Main{% endblock %}
+
+{% block body %}
+<h1>Admin main page</h1>
+
+{% for cat in dish_categories %}
+    <h1>{{ cat.dish_category_name }}</h1>
+{% endfor %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Category</button>
+</form>
+
+{% endblock %}
+

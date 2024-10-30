@@ -7,6 +7,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('promo.urls')),
-    path('restaurant_admin/', include('restaurant_admin.urls')),
+    path('restaurant_admin/', include('restaurant_admin.urls'), name="admin-main"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, docmunet_root=settings.MEDIA_ROOT)

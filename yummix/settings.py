@@ -2,7 +2,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
 
-
 load_dotenv(find_dotenv())
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,7 +53,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'yummix.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('SQL_ENGINE'),
@@ -98,3 +96,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = '/media/'
+
+# Сообщает, о том на какую страницу перенаправлять пользователя после входа в систему
+LOGIN_REDIRECT_URL = "admin-main"
+# Перенаправляет на странцу логина. Например, если пользователь хочет открыть страницу которая доступна только для залогиненых пользователей
+LOGIN_URL = "login"
+# Перенаправляет на эту страницу после логаута
+LOGOUT_REDIRECT_URL = "promo-main"

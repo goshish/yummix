@@ -4,5 +4,5 @@ from .views import AdminMainPageView
 
 
 urlpatterns = [
-    path('', AdminMainPageView.as_view(), name='admin-main'),
+    path('admin-main/', AdminMainPageView.as_view(), name='admin-main'),
 ]

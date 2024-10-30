@@ -25,10 +25,10 @@ class CustomUserCreationForm(UserCreationForm):
         return email
 
     def clean_password1(self):
-        username = self.cleaned_data.get('username').lower()
+        username = self.cleaned_data.get('username')
         password1 = self.cleaned_data.get('password1')
 
-        if password1 and password1.lower() == username:
+        if username and password1 and password1.lower() == username.lower():
             raise ValidationError("The password is too similar to the username.")
         return password1
 
@@ -47,3 +47,8 @@ class CustomUserCreationForm(UserCreationForm):
             self.cleaned_data['password1']
         )
         return user
+
+
+class LoginUserForm(forms.Form):
+    username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'class': 'forminput'}))
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'forminput'}))
