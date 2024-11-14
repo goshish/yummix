@@ -5,14 +5,22 @@
 {% block body %}
 Bar Category page
 
-<h1>{{ bar_categories.dish_category_name }}</h1>
-<p>{{ bar_categories.dish_category_description }}</p>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Bar Item</button>
+</form>
 
 <h2>Bar items in this category:</h2>
 <ul>
     {% for item in bar_items %}
-        <li>{{ item.dish_item_name }} - {{ item.dish_item_price }}</li>
+        <li>{{ item.bar_item_name }} - {{ item.bar_item_price }}</li>
+        <p>{{ item.bar_item_description }}</p>
+    {% empty %}
+        <p>No items in this category yet.</p>
     {% endfor %}
 </ul>
+
 
 {% endblock %}

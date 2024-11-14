@@ -3,15 +3,21 @@
 {% block title %}Category{% endblock %}
 
 {% block body %}
-Dish Category page
+Dish Category Page
 
-<h1>{{ dish_categories.dish_category_name }}</h1>
-<p>{{ dish_categories.dish_category_description }}</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Dish Item</button>
+</form>
 
-<h2>Dishes in this category:</h2>
+<h2>Bar Items in this category</h2>
 <ul>
-    {% for dish in dish_items %}
-        <li>{{ dish.dish_item_name }} - {{ dish.dish_item_price }}</li>
+    {% for item in dish_items %}
+        <li>{{ item.dish_item_name }} - {{ item.dish_item_price }}</li>
+        <p>{{ item.dish_item_description }}</p>
+    {% empty %}
+        <p>No items in this category yet.</p>
     {% endfor %}
 </ul>
 
