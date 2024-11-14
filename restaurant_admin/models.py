@@ -1,5 +1,11 @@
+from email.policy import default
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils.text import slugify
+from unidecode import unidecode
+
 
 
 class Currency(models.Model):
@@ -28,10 +34,19 @@ class DishCategory(models.Model):
     dish_category_name = models.CharField(blank=False, verbose_name="Dish category name", max_length=20)
     dish_category_description = models.TextField(blank=True, verbose_name="Dish category description", max_length=100)
     is_active_dish_category = models.BooleanField(default=True, verbose_name="Is dish category active")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
     dish_category_photo = models.ImageField(blank=True, verbose_name="Dish category photo")
 
     def __str__(self):
         return self.dish_category_name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(unidecode(self.dish_category_name))
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('dish-category-detail', kwargs={'slug': self.slug})
 
 
 class DishItem(models.Model):
@@ -55,11 +70,19 @@ class BarCategory(models.Model):
     bar_category_name = models.CharField(blank=False, verbose_name="Bar category name", max_length=20)
     bar_category_description = models.TextField(blank=True, verbose_name="Bar category description", max_length=100)
     is_bar_category_active = models.BooleanField(default=True, verbose_name="Is bar category active")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
     bar_category_photo = models.ImageField(blank=True, verbose_name="Bar category photo")
 
     def __str__(self):
         return self.bar_category_name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(unidecode(self.bar_category_name))
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('bar-category-detail', kwargs={'slug': self.slug})
 
 class BarItem(models.Model):
     category = models.ForeignKey(BarCategory, on_delete=models.CASCADE, related_name="bar_items")

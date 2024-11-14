@@ -1,0 +1,18 @@
+{% extends 'restaurant_admin/admin-base.html' %}
+
+{% block title %}Category{% endblock %}
+
+{% block body %}
+Dish Category page
+
+<h1>{{ dish_categories.dish_category_name }}</h1>
+<p>{{ dish_categories.dish_category_description }}</p>
+
+<h2>Dishes in this category:</h2>
+<ul>
+    {% for dish in dish_items %}
+        <li>{{ dish.dish_item_name }} - {{ dish.dish_item_price }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

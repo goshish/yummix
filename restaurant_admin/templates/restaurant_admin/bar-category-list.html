@@ -1,0 +1,24 @@
+{% extends 'restaurant_admin/admin-main.html' %}
+
+{% block title %}Bar categories{% endblock %}
+
+{% block body %}
+
+<h1>Bar categories</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Bar Category</button>
+</form>
+
+{% if bar_categories.exists %}
+    {% for category in bar_categories %}
+        <a href="{{ category.get_absolute_url }}">{{ category.bar_category_name }}</a>
+        <h2>{{ category.bar_category_description }}</h2>
+    {% endfor %}
+{% else %}
+    <h1>No bar categories</h1>
+{% endif %}
+
+{% endblock %}
