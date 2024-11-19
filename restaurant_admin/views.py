@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, TemplateView, DetailView, UpdateView
 from unicodedata import category
 from .models import RestaurantInfo, DishCategory, DishItem, Currency, BarCategory, BarItem, User
-from .forms import DishCategoriesForm, BarCategoriesForm, BarItemsForm, DishItemsForm
+from .forms import DishCategoriesForm, BarCategoriesForm, BarItemsForm, DishItemsForm, RestaurantInfoForm
 
 
 class AdminMainPageView(ListView):
@@ -112,3 +112,21 @@ class BarCategoryDetailView(DetailView):
             context = self.get_context_data()
             context['form'] = form
             return self.render_to_response(context)
+
+
+class RestaurantInfoView(DetailView, UpdateView):
+    model = RestaurantInfo
+    template_name = 'restaurant_admin/restaurant-info.html'
+    context_object_name = 'restaurant'
+    form_class = RestaurantInfoForm
+
+    def get_object(self, queryset=None):
+        return RestaurantInfo.objects.get(restaurant_owner=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST, request.FILES, instance=self.object)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant-info')
+        return self.render_to_response(self.get_context_data(form=form))

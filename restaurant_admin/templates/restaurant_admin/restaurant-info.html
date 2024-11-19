@@ -1,0 +1,26 @@
+{% extends 'restaurant_admin/admin-base.html' %}
+
+{% block title %}Restaurant Info Page{% endblock %}
+
+{% block body %}
+<h1>Restaurant Information</h1>
+
+<div>
+    <h2>{{ restaurant.restaurant_name }}</h2>
+    <p>Address: {{ restaurant.restaurant_address }}</p>
+    <p>Wi-Fi: {{ restaurant.restaurant_wifi }}</p>
+    <p>Currency: {{ restaurant.restaurant_currency }}</p>
+    <p>Restaurant logo: <img src="{{ restaurant.restaurant_logo.url }}" alt="Restaurant Logo"></p>
+    <p>Restaurant background image: <img src="{{ restaurant.restaurant_background_image.url }}" alt="Restaurant Logo"></p>
+</div>
+
+<hr>
+
+<h2>Edit Restaurant Information</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

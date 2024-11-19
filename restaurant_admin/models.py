@@ -1,5 +1,6 @@
 from email.policy import default
 from enum import unique
+from Tools.scripts.cleanfuture import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -24,6 +25,8 @@ class RestaurantInfo(models.Model):
     restaurant_wifi = models.TextField(blank=True, verbose_name="Restaurant wi-fi password")
     restaurant_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, blank=False,
                                             verbose_name="Restaurant Currency")
+    restaurant_logo = models.ImageField(blank=False, verbose_name="Restaurant Logo Image")
+    restaurant_background_image = models.ImageField(blank=False, verbose_name="Restaurant Background Image ")
 
     def __str__(self):
         return self.restaurant_name
