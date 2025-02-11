@@ -1,29 +1,46 @@
+from Tools.scripts.cleanfuture import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from unidecode import unidecode
+from django.core.validators import RegexValidator
 
 
 
-class Currency(models.Model):
-    currency_name = models.CharField(max_length=50, verbose_name="Currency Name")
-    currency_code = models.CharField(max_length=3, verbose_name="Currency Code")
-    currency_symbol = models.CharField(max_length=5, verbose_name="Currency Symbol")
-
-    def __str__(self):
-        return f"{self.currency_name} ({self.currency_code})"
-
+from django.db import models
+from django.contrib.auth.models import User
 
 class RestaurantInfo(models.Model):
-    restaurant_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="restaurants")
-    restaurant_name = models.CharField(blank=False, verbose_name="Restaurant name", unique=True, max_length=255)
-    restaurant_address = models.TextField(blank=False, verbose_name="Restaurant address")
-    restaurant_wifi = models.TextField(blank=True, verbose_name="Restaurant wi-fi password")
-    restaurant_currency = models.ForeignKey(Currency, on_delete=models.CASCADE, blank=False,
-                                            verbose_name="Restaurant Currency")
-    restaurant_logo = models.ImageField(blank=False, verbose_name="Restaurant Logo Image")
-    restaurant_background_image = models.ImageField(blank=False, verbose_name="Restaurant Background Image ")
+    restaurant_owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="restaurants", verbose_name="Restaurant Owner"
+    )
+    restaurant_name = models.CharField(
+        max_length=255, blank=False, verbose_name="Restaurant Name", unique=True
+    )
+    restaurant_address = models.TextField(
+        blank=False, verbose_name="Restaurant Address"
+    )
+    restaurant_wifi = models.TextField(
+        blank=True, verbose_name="Restaurant Wi-Fi Password"
+    )
+    restaurant_phone_number = models.CharField(
+        max_length=13,
+        blank=False,
+        verbose_name="Restaurant Phone Number",
+        validators=[
+            RegexValidator(
+                regex=r'^\+995\d{9}$',
+                message="Phone number must be in the format +995XXXXXXXX and contain 12 digits."
+            )
+        ],
+    )
+    restaurant_logo = models.ImageField(
+        blank=False, upload_to="restaurant/logos/", verbose_name="Restaurant Logo Image"
+    )
+    restaurant_background_image = models.ImageField(
+        blank=False, upload_to="restaurant/backgrounds/", verbose_name="Restaurant Background Image"
+    )
 
     def __str__(self):
         return self.restaurant_name
@@ -83,6 +100,7 @@ class BarCategory(models.Model):
 
     def get_absolute_url(self):
         return reverse('bar-category-detail', kwargs={'slug': self.slug})
+
 
 class BarItem(models.Model):
     category = models.ForeignKey(BarCategory, on_delete=models.CASCADE, related_name="bar_items")

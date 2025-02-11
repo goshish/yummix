@@ -1,11 +1,24 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'restaurant_admin/css/restaurant_admin.css' %}">
 </head>
 <body>
-    <h1>Расширение работает</h1>
+<div class="container">
+    <div class="header">
+        <img class="backgroung-img" src="{{ restaurant.restaurant_background_image.url }}" width="142px" height="142px" alt="background-image">
+        <img class="logo" src="{{ restaurant.restaurant_logo.url }}" width="142px" height="142px" alt="logo">
+    </div>
+    <div class="header-info">
+        <div class="rest-name"><h1>{{ restaurant.restaurant_name }}</h1></div>
+
     {% block body %}{% endblock %}
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}

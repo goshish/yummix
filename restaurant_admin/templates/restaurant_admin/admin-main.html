@@ -3,21 +3,29 @@
 {% block title %}Main{% endblock %}
 
 {% block body %}
+<div class="body">
 <h1>Admin main page</h1>
-
-{% for category in dish_categories %}
-    <a href="{{ category.get_absolute_url }}">{{ category.dish_category_name }}</a>
-{% endfor %}
-
-<a href="{% url 'bar-categories' %}">Bar categories</a>
-<a href="{% url 'restaurant-info' %}">About Page</a>
-
-
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Add Dish Category</button>
 </form>
 
+<div class="category">
+    <ul id="sortable-category-list">
+        {% for category in dish_categories %}
+            <li class="sortable-item" data-id="{{ category.id }}">
+                {{ category.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="nav-bar">
+    <a href="{% url 'bar-categories' %}">Bar categories</a>
+    <a href="{% url 'restaurant-info' %}">About Page</a>
+
+</div>
+</div>
 {% endblock %}
 

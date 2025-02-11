@@ -11,8 +11,20 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<h1>Extends is working</h1>
-
+<div class="nav">
+    {% if user.is_authenticated %}
+        <a href="{% url 'admin-main' %}">{{ user.username }}</a><br>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <a href="#">Контакты</a><br>
+    <a href="#">Политика конфиденциальности</a>
+</div>
 {% block body %}
 {% endblock %}
 </body>

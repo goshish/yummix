@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, TemplateView, DetailView, UpdateView
 from unicodedata import category
-from .models import RestaurantInfo, DishCategory, DishItem, Currency, BarCategory, BarItem, User
+from .models import RestaurantInfo, DishCategory, DishItem, BarCategory, BarItem, User
 from .forms import DishCategoriesForm, BarCategoriesForm, BarItemsForm, DishItemsForm, RestaurantInfoForm
 
 

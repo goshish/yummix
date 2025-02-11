@@ -46,6 +46,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'restaurant_admin.context_processors.restaurant_context',
+
             ],
         },
     },
@@ -102,3 +104,5 @@ LOGIN_REDIRECT_URL = "admin-main"
 LOGIN_URL = "login"
 # Перенаправляет на эту страницу после логаута
 LOGOUT_REDIRECT_URL = "promo-main"
+
+CURRENCY_SYMBOL = "₾"

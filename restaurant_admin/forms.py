@@ -31,4 +31,4 @@ class BarItemsForm(forms.ModelForm):
 class RestaurantInfoForm(forms.ModelForm):
     class Meta:
         model = RestaurantInfo
-        fields = ['restaurant_name', 'restaurant_address', 'restaurant_wifi', 'restaurant_logo', 'restaurant_background_image','restaurant_currency']
+        fields = ['restaurant_name', 'restaurant_address', 'restaurant_wifi', 'restaurant_logo', 'restaurant_background_image', 'restaurant_phone_number']

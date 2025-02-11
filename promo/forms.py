@@ -1,4 +1,5 @@
 from django import forms
+from promo.models import CallbackRequest
 from restaurant_admin.models import User, RestaurantInfo
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
@@ -52,3 +53,19 @@ class CustomUserCreationForm(UserCreationForm):
 class LoginUserForm(forms.Form):
     username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'class': 'forminput'}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'forminput'}))
+
+
+class CallbackRequestForm(forms.ModelForm):
+    class Meta:
+        model = CallbackRequest
+        fields = ['name', 'phone_number', 'email']
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        if not phone_number.startswith('+995'):
+            raise forms.ValidationError("Phone number must start with '+995'.")
+        if len(phone_number) != 13:
+            raise forms.ValidationError("Phone number must contain exactly 12 digits including the country code.")
+        if not phone_number[1:].isdigit():
+            raise forms.ValidationError("Phone number must contain only digits after '+'.")
+        return phone_number
